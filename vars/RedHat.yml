@@ -1,0 +1,12 @@
+---
+moosefs_build_dependencies:
+  - '@Development Tools'
+  - libpcap-devel
+  - zlib-devel
+  - pkgconfig
+
+moosefs_build_dependencies_fuse3:
+  - fuse3-devel
+
+moosefs_build_dependencies_fuse:
+  - fuse-devel

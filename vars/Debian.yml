@@ -1,0 +1,12 @@
+---
+moosefs_build_dependencies:
+  - build-essential
+  - libpcap-dev
+  - zlib1g-dev
+  - pkg-config
+
+moosefs_build_dependencies_fuse3:
+  - libfuse3-dev
+
+moosefs_build_dependencies_fuse:
+  - libfuse-dev
