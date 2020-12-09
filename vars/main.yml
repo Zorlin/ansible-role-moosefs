@@ -1,2 +1,5 @@
 ---
 # vars file for ansible-role-moosefs
+
+# Filename of MooseFS
+moosefs_tarball_filename: 'v{{ moosefs_version }}.tar.gz'
