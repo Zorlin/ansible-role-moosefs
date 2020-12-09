@@ -45,3 +45,25 @@
     state: present
   when:
     - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04' or ansible_distribution_version == '3.1'
+
+# Create a version-specific folder for downloading and building MooseFS
+- name: Create a folder for downloading and building MooseFS
+  file:
+    path: /usr/local/src/moosefs-{{ moosefs_version }}
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+# Download MooseFS
+- name: Download MooseFS
+  get_url:
+    url: "https://github.com/moosefs/moosefs/archive/v{{ moosefs_version }}.tar.gz"
+    dest: "/usr/local/src/moosefs-{{ moosefs_version }}/{{ moosefs_tarball_filename }}"
+    checksum: "sha256:{{ moosefs_tarball_checksum }}"
+
+- name: Unpack MooseFS
+  unarchive:
+    remote_src: true
+    dest: "/usr/local/src/moosefs-{{ moosefs_version }}"
+    src: "/usr/local/src/moosefs-{{ moosefs_version }}/{{ moosefs_tarball_filename }}"
