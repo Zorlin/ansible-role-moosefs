@@ -67,3 +67,4 @@
     remote_src: true
     dest: "/usr/local/src/moosefs-{{ moosefs_version }}"
     src: "/usr/local/src/moosefs-{{ moosefs_version }}/{{ moosefs_tarball_filename }}"
+    creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs-version }}"
