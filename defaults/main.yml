@@ -1,2 +1,3 @@
 ---
-# defaults file for ansible-role-moosefs
+# MooseFS version to compile and install
+moosefs_version: '3.0.115'
