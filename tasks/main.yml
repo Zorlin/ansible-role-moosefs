@@ -68,3 +68,10 @@
     dest: "/usr/local/src/moosefs-{{ moosefs_version }}"
     src: "/usr/local/src/moosefs-{{ moosefs_version }}/{{ moosefs_tarball_filename }}"
     creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
+
+# Configure the build
+- name: Configure MooseFS build
+  command: "./configure --prefix=/usr --mandir=/share/man --sysconfdir=/etc --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs"
+  args:
+    chdir: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
+    creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}/Makefile"
