@@ -75,3 +75,10 @@
   args:
     chdir: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
     creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}/Makefile"
+
+# Build MooseFS!
+- name: Build MooseFS
+  command: "make"
+  args:
+    chdir: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
+    creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}/mfsmaster/mfsmaster"
