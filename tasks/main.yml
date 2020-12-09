@@ -44,5 +44,4 @@
       "{{ moosefs_build_dependencies_fuse }}"
     state: present
   when:
-    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
-    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '3.1'
+    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04' or ansible_distribution_version == '3.1'
