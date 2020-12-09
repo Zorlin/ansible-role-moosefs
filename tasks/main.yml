@@ -23,3 +23,24 @@
       - "MooseFS version {{ moosefs_version }}"
       - "MooseFS checksum {{ moosefs_tarball_checksum }}"
       - "MooseFS filename {{ moosefs_tarball_filename }}"
+
+# Install dependencies
+- name: Install dependencies needed to build MooseFS
+  package:
+    name:
+      "{{ moosefs_build_dependencies }}"
+    state: present
+
+- name: Install FUSE3 development libraries needed to build MooseFS
+  package:
+    name:
+      "{{ moosefs_build_dependencies_fuse3 }}"
+    state: present
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
+
+- name: Install FUSE development libraries needed to build MooseFS (when FUSE3 not available)
+  package:
+    name:
+      "{{ moosefs_build_dependencies_fuse }}"
+    state: present
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
