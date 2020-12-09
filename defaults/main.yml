@@ -1,3 +1,6 @@
 ---
 # MooseFS version to compile and install
 moosefs_version: '3.0.115'
+
+# Intended MooseFS master hostname to use
+moosefs_master_host: mfsmaster
