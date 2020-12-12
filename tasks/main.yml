@@ -1,6 +1,6 @@
 ---
 # tasks file for ansible-role-moosefs
-
+# main tasks file, which performs pretty much everything needed for installation and configuration of MooseFS
 # Conditionally load in variables for chosen version of MooseFS
 - name: load version vars
   with_first_found:
@@ -11,74 +11,4 @@
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
-# Check that we have valid information about the version we are trying to install
-- name: assert version vars
-  assert:
-    that:
-      - "moosefs_tarball_checksum not in (None, '')"
-
-- name: Print important variables before we do our work
-  debug:
-    msg:
-      - "MooseFS version {{ moosefs_version }}"
-      - "MooseFS checksum {{ moosefs_tarball_checksum }}"
-      - "MooseFS filename {{ moosefs_tarball_filename }}"
-
-# Install dependencies
-- name: Install dependencies needed to build MooseFS
-  package:
-    name:
-      "{{ moosefs_build_dependencies }}"
-    state: present
-
-- name: Install FUSE3 development libraries needed to build MooseFS
-  package:
-    name:
-      "{{ moosefs_build_dependencies_fuse3 }}"
-    state: present
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04'
-
-- name: Install FUSE development libraries needed to build MooseFS (when FUSE3 not available)
-  package:
-    name:
-      "{{ moosefs_build_dependencies_fuse }}"
-    state: present
-  when:
-    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04' or ansible_distribution_version == '3.1'
-
-# Create a version-specific folder for downloading and building MooseFS
-- name: Create a folder for downloading and building MooseFS
-  file:
-    path: /usr/local/src/moosefs-{{ moosefs_version }}
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-
-# Download MooseFS
-- name: Download MooseFS
-  get_url:
-    url: "https://github.com/moosefs/moosefs/archive/v{{ moosefs_version }}.tar.gz"
-    dest: "/usr/local/src/moosefs-{{ moosefs_version }}/{{ moosefs_tarball_filename }}"
-    checksum: "sha256:{{ moosefs_tarball_checksum }}"
-
-- name: Unpack MooseFS
-  unarchive:
-    remote_src: true
-    dest: "/usr/local/src/moosefs-{{ moosefs_version }}"
-    src: "/usr/local/src/moosefs-{{ moosefs_version }}/{{ moosefs_tarball_filename }}"
-    creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
-
-# Configure the build
-- name: Configure MooseFS build
-  command: "./configure --prefix=/usr --mandir=/share/man --sysconfdir=/etc --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs"
-  args:
-    chdir: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
-    creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}/Makefile"
-
-# Build MooseFS!
-- name: Build MooseFS
-  command: "make"
-  args:
-    chdir: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
-    creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}/mfsmaster/mfsmaster"
+- include_tasks: build-from-source.yml
