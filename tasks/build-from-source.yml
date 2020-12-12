@@ -82,3 +82,11 @@
   args:
     chdir: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
     creates: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}/mfsmaster/mfsmaster"
+
+# Install MooseFS!
+- name: Install MooseFS
+  command: "make install"
+  args:
+    chdir: "/usr/local/src/moosefs-{{ moosefs_version }}/moosefs-{{ moosefs_version }}"
+    creates: "/usr/sbin/mfsmaster"
+  when: moosefs_build_autoinstall
