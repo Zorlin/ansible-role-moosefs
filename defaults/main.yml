@@ -4,3 +4,16 @@ moosefs_version: '3.0.115'
 
 # Intended MooseFS master hostname to use
 moosefs_master_host: mfsmaster
+
+# Installation method to use. Currently only building from source is available.
+# In the future, package-based installation will also be available.
+# This role will pick the best default option suitable for your OS and hardware automatically.
+# But you can also override which method to use - per host if you want!
+# If you set this to something other than build (like package) for a host, you can use existing
+# Moose machines using package-based installation and otherwise get all the full benefits.
+# BETA.
+moosefs_install_method: build
+
+# Special settings for building from source
+# After building MooseFS, automatically install it without intervention.
+moosefs_build_autoinstall: true

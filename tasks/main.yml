@@ -12,3 +12,4 @@
   include_vars: "{{ ansible_os_family }}.yml"
 
 - include_tasks: build-from-source.yml
+  when: moosefs_install_method == build
