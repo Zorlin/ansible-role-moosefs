@@ -21,6 +21,24 @@
     mode: '0644'
   when: "'moosefs_master' in group_names"
 
+- name: Configure the main topology configuration
+  template:
+    src: mfstopology.cfg.j2
+    dest: /etc/mfs/mfstopology.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  when: "'moosefs_master' in group_names"
+
+- name: Configure the main exports
+  template:
+    src: mfsexports.cfg.j2
+    dest: /etc/mfs/mfsexports.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  when: "'moosefs_master' in group_names"
+
 - name: Configure the main chunkserver configuration
   template:
     src: mfschunkserver.cfg.j2
