@@ -22,7 +22,7 @@
 
 - name: MooseFS install check - store the result
   set_fact:
-    moosefs_installed: "{{ moosefs_install_check.stat.exists }}"
+    moosefs_installed: true
 
 # Once MooseFS is installed, create configuration files and prepare things
 - include_tasks: configure-moosefs.yml
