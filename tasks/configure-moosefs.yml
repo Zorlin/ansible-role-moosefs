@@ -20,3 +20,12 @@
     group: root
     mode: '0644'
   when: "'moosefs_master' in group_names"
+
+- name: Configure the main chunkserver configuration
+  template:
+    src: mfschunkserver.cfg.j2
+    dest: /etc/mfs/mfschunkserver.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  when: "'moosefs_chunkserver' in group_names"
