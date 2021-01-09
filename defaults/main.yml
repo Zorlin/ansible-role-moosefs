@@ -5,6 +5,13 @@ moosefs_version: '3.0.115'
 # Intended MooseFS master hostname to use
 moosefs_master_host: mfsmaster
 
+# Enable MooseFS PRO (will not work without a licence)
+moosefs_pro_enabled: false
+
+# Enable experimental dual installation method (MooseFS PRO and CE)
+# This is NOT officially supported, use with caution!
+moosefs_pro_dual_install: false
+
 # Installation method to use. Currently only building from source is available.
 # In the future, package-based installation will also be available.
 # This role will pick the best default option suitable for your OS and hardware automatically.
