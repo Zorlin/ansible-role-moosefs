@@ -31,3 +31,9 @@
 # Once MooseFS is installed, create configuration files and prepare things
 - include_tasks: configure-moosefs.yml
   when: moosefs_installed
+  set_fact:
+    moosefs_configured: true
+
+# Now that MooseFS is configured, start and enable services
+- include_tasks: start-services.yml
+  when: moosefs_configured

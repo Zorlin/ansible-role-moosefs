@@ -1,0 +1,58 @@
+---
+# tasks file for ansible-role-moosefs
+
+# Start MooseFS master
+- name: Start MooseFS master
+  service:
+    name: moosefs-master
+    state: started
+  when: "'moosefs_master' in group_names"
+
+# Enable MooseFS master
+- name: Enable MooseFS master
+  service:
+    name: moosefs-master
+    state: enabled
+  when: "'moosefs_master' in group_names"
+
+# Start MooseFS metalogger
+- name: Start MooseFS metalogger
+  service:
+    name: moosefs-metalogger
+    state: started
+  when: "'moosefs_metalogger' in group_names"
+
+# Enable MooseFS metalogger
+- name: Enable MooseFS metalogger
+  service:
+    name: moosefs-metalogger
+    state: enabled
+  when: "'moosefs_metalogger' in group_names"
+
+# Start MooseFS chunkserver
+- name: Start MooseFS chunkserver
+  service:
+    name: moosefs-chunkserver
+    state: started
+  when: "'moosefs_chunkserver' in group_names"
+
+# Enable MooseFS chunkserver
+- name: Enable MooseFS chunkserver
+  service:
+    name: moosefs-chunkserver
+    state: enabled
+  when: "'moosefs_chunkserver' in group_names"
+
+# Start MooseFS client
+- name: Start MooseFS client
+  service:
+    name: moosefs-client
+    state: started
+  when: "'moosefs_client' in group_names"
+
+# Enable MooseFS client
+- name: Enable MooseFS client
+  service:
+    name: moosefs-client
+    state: enabled
+  when: "'moosefs_client' in group_names"
