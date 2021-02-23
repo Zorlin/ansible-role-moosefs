@@ -9,6 +9,14 @@
     enabled: true
   when: "'moosefs_master' in group_names"
 
+# Start and enable MooseFS cgiserv
+- name: Start and enable MooseFS cgiserv
+  service:
+    name: moosefs-cgiserv
+    state: started
+    enabled: true
+  when: "'moosefs_master' in group_names"
+
 # Start and enable MooseFS metalogger
 - name: Start and enable MooseFS metalogger
   service:
@@ -24,11 +32,3 @@
     state: started
     enabled: true
   when: "'moosefs_chunkserver' in group_names"
-
-# Start and enable MooseFS client
-- name: Start and enable MooseFS client
-  service:
-    name: moosefs-client
-    state: started
-    enabled: true
-  when: "'moosefs_client' in group_names"

@@ -32,10 +32,13 @@
   apt_repository:
     repo: deb [arch=amd64] http://ppa.moosefs.com/moosefs-3/apt/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main # noqa 204
 
-# Install MooseFS master
-- name: Install MooseFS master
+# Install MooseFS master and CGI
+- name: Install MooseFS master and CGI
   apt:
-    name: moosefs-master
+    name:
+      - moosefs-master
+      - moosefs-cgi
+      - moosefs-cgiserv
     state: present
   when: "'moosefs_master' in group_names"
 
