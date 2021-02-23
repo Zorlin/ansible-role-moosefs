@@ -15,6 +15,10 @@
 - include_tasks: build-from-source.yml
   when: moosefs_install_method == "build"
 
+# Install MooseFS from packages
+- include_tasks: install-from-package.yml
+  when: moosefs_install_method == "package"
+
 # Check if MooseFS is now installed
 - name: Check if MooseFS is installed
   stat: path=/usr/sbin/mfsmaster

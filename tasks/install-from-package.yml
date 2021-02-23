@@ -1,0 +1,61 @@
+---
+# tasks file for ansible-role-moosefs
+
+# Conditionally load in variables for chosen version of MooseFS
+- name: load version vars
+  with_first_found:
+    - '../vars/versions/{{ moosefs_version }}.yml'
+    - ../vars/versions/default.yml
+  include_vars: '{{ item }}'
+
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+# Check that we have valid information about the version we are trying to install
+- name: assert version vars
+  assert:
+    that:
+      - "moosefs_version not in (None, '')"
+
+- name: Print important variables before we do our work
+  debug:
+    msg:
+      - "MooseFS version {{ moosefs_version }}"
+
+# Add apt key
+- name: Install MooseFS apt key
+  apt_key:
+    url: https://ppa.moosefs.com/moosefs.key
+    keyring: /etc/apt/trusted.gpg.d/debian.gpg
+
+- name: Install MooseFS apt repository
+  apt_repository:
+    url: deb [arch=amd64] http://ppa.moosefs.com/moosefs-3/apt/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main # noqa 204
+
+# Install MooseFS master
+- name: Install MooseFS master
+  apt:
+    name: moosefs-master
+    state: present
+  when: "'moosefs_master' in group_names"
+
+# Install MooseFS metalogger
+- name: Install MooseFS metalogger
+  apt:
+    name: moosefs-metalogger
+    state: present
+  when: "'moosefs_metalogger' in group_names"
+
+# Install MooseFS chunkserver
+- name: Install MooseFS chunkserver
+  apt:
+    name: moosefs-chunkserver
+    state: present
+  when: "'moosefs_chunkserver' in group_names"
+
+# Install MooseFS client
+- name: Install MooseFS client
+  apt:
+    name: moosefs-client
+    state: present
+  when: "'moosefs_client' in group_names"
