@@ -37,4 +37,7 @@ moosefs_chunkserver_custom_options:
 # Extra custom options for the clients
 moosefs_client_custom_options:
 
+# Whether to automatically mount MooseFS on clients
+moosefs_automount: false
+
 # TODO - custom topology, custom exports
