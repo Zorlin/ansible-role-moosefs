@@ -30,7 +30,7 @@
 
 - name: Install MooseFS apt repository
   apt_repository:
-    url: deb [arch=amd64] http://ppa.moosefs.com/moosefs-3/apt/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main # noqa 204
+    repo: deb [arch=amd64] http://ppa.moosefs.com/moosefs-3/apt/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main # noqa 204
 
 # Install MooseFS master
 - name: Install MooseFS master
