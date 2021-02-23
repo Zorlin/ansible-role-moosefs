@@ -57,6 +57,24 @@
     mode: '0644'
   when: "'moosefs_chunkserver' in group_names"
 
+- name: Configure the chunkserver brick list
+  template:
+    src: mfshdd.cfg.j2
+    dest: /etc/mfs/mfshdd.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  when: "'moosefs_chunkserver' in group_names"
+
+- name: Configure the MooseFS client
+  template:
+    src: mfsmount.cfg.j2
+    dest: /etc/mfs/mfsmount.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  when: "'moosefs_client' in group_names"
+
 - name: Mark MooseFS as configured
   set_fact:
     moosefs_configured: true
