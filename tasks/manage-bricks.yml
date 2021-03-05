@@ -1,0 +1,13 @@
+---
+# tasks file for ansible-role-moosefs
+# Make sure the brick directory is healthy and correctly configured
+
+- name: Ensure the brick folder exists and is owned correctly
+  file:
+    name: /mfsbrick.1/
+    state: directory
+    owner: mfs
+    group: mfs
+    mode: '0750'
+    recurse: yes
+  when: "'moosefs_chunkserver' in group_names"

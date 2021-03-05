@@ -5,6 +5,12 @@ driver:
   name: docker
 platforms:
   - name: instance
+    groups:
+      - moosefs
+      - moosefs_master
+      - moosefs_metalogger
+      - moosefs_chunkserver
+      - moosefs_client
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
@@ -13,6 +19,11 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
+  inventory:
+    group_vars:
+      all:
+        moosefs_master_host = 127.0.0.1
+        moosefs_install_method = package
   options:
     D: true
   playbooks:

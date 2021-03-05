@@ -20,8 +20,43 @@
   when: moosefs_install_method == "package"
 
 # Check if MooseFS is now installed
-- name: Check if MooseFS is installed
+# TODO - consider making this a loop
+
+- name: Check if MooseFS is installed (master)
   stat: path=/usr/sbin/mfsmaster
+  register: moosefs_install_check
+  when: "'moosefs_master' in group_names"
+
+- name: MooseFS install check - store the result
+  set_fact:
+    moosefs_installed: true
+
+- name: Check if MooseFS is installed (cgiserv)
+  stat: path=/usr/sbin/mfscgiserv
+  register: moosefs_install_check
+
+- name: MooseFS install check - store the result
+  set_fact:
+    moosefs_installed: true
+
+- name: Check if MooseFS is installed (metalogger)
+  stat: path=/usr/sbin/mfsmetalogger
+  register: moosefs_install_check
+
+- name: MooseFS install check - store the result
+  set_fact:
+    moosefs_installed: true
+
+- name: Check if MooseFS is installed (chunkserver)
+  stat: path=/usr/sbin/mfschunkserver
+  register: moosefs_install_check
+
+- name: MooseFS install check - store the result
+  set_fact:
+    moosefs_installed: true
+
+- name: Check if MooseFS is installed (client)
+  stat: path=/usr/bin/mfsmount
   register: moosefs_install_check
 
 - name: MooseFS install check - store the result
@@ -29,9 +64,16 @@
     moosefs_installed: true
 
 # Once MooseFS is installed, create configuration files and prepare things
+- include_tasks: manage-bricks.yml
+  when: moosefs_installed
+
 - include_tasks: configure-moosefs.yml
   when: moosefs_installed
 
 # Now that MooseFS is configured, start and enable services
 - include_tasks: start-services.yml
   when: moosefs_configured
+
+# Automount MooseFS if automount is enabled
+- include_tasks: mount-moosefs.yml
+  when: moosefs_automount
