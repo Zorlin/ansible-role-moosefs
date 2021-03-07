@@ -11,7 +11,7 @@ platforms:
       - moosefs_metalogger
       - moosefs_chunkserver
       - moosefs_client
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -22,8 +22,8 @@ provisioner:
   inventory:
     group_vars:
       all:
-        moosefs_master_host = 127.0.0.1
-        moosefs_install_method = package
+        moosefs_master_host: 127.0.0.1
+        moosefs_install_method: "package"
   options:
     D: true
   playbooks:
