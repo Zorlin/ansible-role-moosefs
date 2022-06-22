@@ -1,0 +1,22 @@
+---
+# tasks file for ansible-role-moosefs
+# Make sure the brick directory is healthy and correctly configured
+
+- name: Build a list of bricks
+  find:
+    paths: /mnt/
+    patterns: "mfsbrick.*,mfsbrickpro.*"
+    file_type: directory
+  register: brick_list
+
+- name: Ensure each brick folder exists and is owned correctly
+  file:
+    name: "{{ item.path }}/brick"
+    state: directory
+    owner: mfs
+    group: mfs
+    mode: '0750'
+    recurse: yes
+  when: "'moosefs_chunkserver' in group_names"
+  loop: "{{ brick_list.files }}"
+  no_log: true

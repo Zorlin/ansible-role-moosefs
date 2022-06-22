@@ -1,0 +1,26 @@
+---
+# tasks file for ansible-role-moosefs
+- name: Check for existence of metadata.mfs.empty
+  stat:
+    path: "/var/lib/mfs/metadata.mfs.empty"
+  register: moosefs_empty_metadata
+
+- name: Check for existing metadata files (main)
+  stat:
+    path: "/var/lib/mfs/metadata.mfs"
+  register: moosefs_existing_metadata_main
+
+- name: Check for existing metadata files (backup)
+  stat:
+    path: "/var/lib/mfs/metadata.mfs.back"
+  register: moosefs_existing_metadata_backup
+
+- name: Copy blank metadata into place to initialise the cluster
+  copy:
+    src: "/var/lib/mfs/metadata.mfs.empty"
+    dest: "/var/lib/mfs/metadata.mfs"
+    remote_src: true
+  when: 
+    - moosefs_empty_metadata.stat.exists
+    - not moosefs_existing_metadata_main.stat.exists
+    - not moosefs_existing_metadata_backup.stat.exists

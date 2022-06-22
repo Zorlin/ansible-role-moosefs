@@ -1,3 +1,5 @@
 # List of MooseFS bricks.
-# Edit with care.
-/mfsbrick.1/
+# {{ ansible_managed }}
+{% for brick in brick_list.files %}
+{{ brick.path }}/brick
+{% endfor %}

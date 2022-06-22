@@ -3,7 +3,7 @@
 # main tasks file, which performs pretty much everything needed for installation and configuration of MooseFS
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
-
+  
 ### Install MooseFS ###
 # Install MooseFS from official packages
 - include_tasks: install-official.yml
@@ -64,11 +64,15 @@
 
 ### Post-installation ###
 # Once MooseFS is installed, create configuration files and prepare things
-- include_tasks: check-bricks.yml
+- include_tasks: setup-bricks.yml
   when: moosefs_installed
 
 - include_tasks: configure-moosefs.yml
   when: moosefs_installed
+
+# If needed, initialize the cluster
+- include_tasks: check-empty-metadata.yml
+  when: moosefs_installed and "'moosefs_master' in group_names"
 
 # Now that MooseFS is configured, start and enable services
 - include_tasks: start-services.yml
@@ -76,4 +80,10 @@
 
 # Automount MooseFS if automount is enabled
 - include_tasks: mount-moosefs.yml
-  when: moosefs_automount
+  when: moosefs_automount and "'moosefs_client' in group_names"
+
+# Print success message
+- name: Print success message
+  debug:
+    msg: 
+      - "If you're seeing this, congratulations! MooseFS has successfully installed."

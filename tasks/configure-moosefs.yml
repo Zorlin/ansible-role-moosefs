@@ -2,13 +2,6 @@
 # tasks file for ansible-role-moosefs
 # Configure your MooseFS cluster.
 
-# Conditionally load in variables for chosen version of MooseFS
-- name: load version vars
-  with_first_found:
-    - '../vars/versions/{{ moosefs_version }}.yml'
-    - ../vars/versions/default.yml
-  include_vars: '{{ item }}'
-
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
@@ -56,6 +49,13 @@
     group: root
     mode: '0644'
   when: "'moosefs_chunkserver' in group_names"
+
+- name: Build a list of bricks
+  find:
+    paths: /mnt/
+    patterns: "mfsbrick.*,mfsbrickpro.*"
+    file_type: directory
+  register: brick_list
 
 - name: Configure the chunkserver brick list
   template:

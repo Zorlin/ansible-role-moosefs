@@ -7,6 +7,8 @@ moosefs_build_dependencies:
 
 moosefs_build_dependencies_fuse3:
   - libfuse3-dev
+  - fuse3
 
 moosefs_build_dependencies_fuse:
   - libfuse-dev
+  - fuse
