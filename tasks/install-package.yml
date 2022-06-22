@@ -1,27 +1,6 @@
 ---
 # tasks file for ansible-role-moosefs
 
-# Conditionally load in variables for chosen version of MooseFS
-- name: load version vars
-  with_first_found:
-    - '../vars/versions/{{ moosefs_version }}.yml'
-    - ../vars/versions/default.yml
-  include_vars: '{{ item }}'
-
-- name: Include OS-specific variables.
-  include_vars: "{{ ansible_os_family }}.yml"
-
-# Check that we have valid information about the version we are trying to install
-- name: assert version vars
-  assert:
-    that:
-      - "moosefs_version not in (None, '')"
-
-- name: Print important variables before we do our work
-  debug:
-    msg:
-      - "MooseFS version {{ moosefs_version }}"
-
 # Add apt key
 - name: Install MooseFS apt key
   apt_key:

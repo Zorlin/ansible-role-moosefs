@@ -1,12 +1,12 @@
 ---
 # MooseFS version to compile and install
-moosefs_version: '3.0.115'
+moosefs_version: '3.0.116'
 
 # Intended MooseFS master hostname to use
 moosefs_master_host: mfsmaster
 
 # Enable MooseFS PRO (will not work without a licence)
-moosefs_pro_enabled: false
+moosefs_pro: false
 
 # Enable experimental dual installation method (MooseFS PRO and CE)
 # This is NOT officially supported, use with caution!
@@ -38,6 +38,6 @@ moosefs_chunkserver_custom_options:
 moosefs_client_custom_options:
 
 # Whether to automatically mount MooseFS on clients
-moosefs_automount: false
+moosefs_automount: true
 
 # TODO - custom topology, custom exports

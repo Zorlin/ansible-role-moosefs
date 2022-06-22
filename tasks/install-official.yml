@@ -1,0 +1,76 @@
+---
+# Add apt key
+- name: Install MooseFS apt key
+  apt_key:
+    url: https://ppa.moosefs.com/moosefs.key
+    keyring: /etc/apt/trusted.gpg.d/debian.gpg
+
+- name: Install MooseFS apt repository
+  apt_repository:
+    repo: deb [arch=amd64] http://ppa.moosefs.com/moosefs-3/apt/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main # noqa 204
+    update_cache: true
+  when: not moosefs_pro
+
+- name: Install MooseFS apt repository (PRO)
+  apt_repository:
+    repo: deb [arch=amd64] http://ppa.moosefs.com/moosefs-4/apt/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main # noqa 204
+    update_cache: true
+  when: moosefs_pro
+
+# Install MooseFS master and CGI
+- name: Install MooseFS master and CGI
+  apt:
+    name:
+      - moosefs-master
+      - moosefs-cgi
+      - moosefs-cgiserv
+    state: present
+  when: "'moosefs_master' in group_names and not moosefs_pro"
+
+- name: Install MooseFS master and CGI (PRO)
+  apt:
+    name:
+      - moosefs-pro-master
+      - moosefs-pro-cgi
+      - moosefs-pro-cgiserv
+    state: present
+  when: "'moosefs_master' in group_names and moosefs_pro"
+
+# Install MooseFS metalogger
+- name: Install MooseFS metalogger
+  apt:
+    name: moosefs-metalogger
+    state: present
+  when: "'moosefs_metalogger' in group_names and not moosefs_pro"
+
+- name: Install MooseFS metalogger (PRO)
+  apt:
+    name: moosefs-pro-metalogger
+    state: present
+  when: "'moosefs_metalogger' in group_names and moosefs_pro"
+
+# Install MooseFS chunkserver
+- name: Install MooseFS chunkserver
+  apt:
+    name: moosefs-chunkserver
+    state: present
+  when: "'moosefs_chunkserver' in group_names and not moosefs_pro"
+
+- name: Install MooseFS chunkserver (PRO)
+  apt:
+    name: moosefs-pro-chunkserver
+    state: present
+  when: "'moosefs_chunkserver' in group_names and moosefs_pro"
+
+# Install MooseFS client
+- name: Install MooseFS client
+  apt:
+    name: moosefs-client
+    state: present
+  when: "'moosefs_client' in group_names and not moosefs_pro"
+
+- name: Install MooseFS client (PRO)
+  apt:
+    name: moosefs-pro-client
+    state: present
+  when: "'moosefs_client' in group_names and moosefs_pro"

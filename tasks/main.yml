@@ -1,24 +1,23 @@
 ---
 # tasks file for ansible-role-moosefs
 # main tasks file, which performs pretty much everything needed for installation and configuration of MooseFS
-# Conditionally load in variables for chosen version of MooseFS
-- name: load version vars
-  with_first_found:
-    - '../vars/versions/{{ moosefs_version }}.yml'
-    - ../vars/versions/default.yml
-  include_vars: '{{ item }}'
-
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
+### Install MooseFS ###
+# Install MooseFS from official packages
+- include_tasks: install-official.yml
+  when: moosefs_install_method == "official"
+
 # Build and install MooseFS from source for hosts using build method (current default)
-- include_tasks: build-from-source.yml
-  when: moosefs_install_method == "build"
+- include_tasks: install-source.yml
+  when: moosefs_install_method == "build" and not moosefs_pro
 
-# Install MooseFS from packages
+# Install MooseFS from distro packages
 - include_tasks: install-from-package.yml
-  when: moosefs_install_method == "package"
+  when: moosefs_install_method == "package" and not moosefs_pro
 
+### Check installation ###
 # Check if MooseFS is now installed
 # TODO - consider making this a loop
 
@@ -63,8 +62,9 @@
   set_fact:
     moosefs_installed: true
 
+### Post-installation ###
 # Once MooseFS is installed, create configuration files and prepare things
-- include_tasks: manage-bricks.yml
+- include_tasks: check-bricks.yml
   when: moosefs_installed
 
 - include_tasks: configure-moosefs.yml
