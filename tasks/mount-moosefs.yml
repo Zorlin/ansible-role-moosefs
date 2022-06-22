@@ -19,6 +19,7 @@
 - name: Mount MooseFS
   command:
     cmd: mfsmount
+  when: ansible_mounts | selectattr('mount', 'equalto', moosefs_mount_path) | list | length == 0
 
 - name: Check if MooseFS is working
   file:
