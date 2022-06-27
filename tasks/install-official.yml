@@ -24,8 +24,17 @@
       - moosefs-master
       - moosefs-cgi
       - moosefs-cgiserv
+      - moosefs-cli
     state: present
   when: "'moosefs_master' in group_names and not moosefs_pro"
+
+- name: Install MooseFS licence (PRO)
+  copy:
+    src: 'mfslicence.bin'
+    dest: /etc/mfs/mfslicence.bin
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Install MooseFS master and CGI (PRO)
   apt:
@@ -33,44 +42,57 @@
       - moosefs-pro-master
       - moosefs-pro-cgi
       - moosefs-pro-cgiserv
+      - moosefs-pro-cli
     state: present
   when: "'moosefs_master' in group_names and moosefs_pro"
 
 # Install MooseFS metalogger
 - name: Install MooseFS metalogger
   apt:
-    name: moosefs-metalogger
+    name:
+      - moosefs-metalogger
+      - moosefs-cli
     state: present
   when: "'moosefs_metalogger' in group_names and not moosefs_pro"
 
 - name: Install MooseFS metalogger (PRO)
   apt:
-    name: moosefs-pro-metalogger
+    name:
+      - moosefs-pro-metalogger
+      - moosefs-pro-cli
     state: present
   when: "'moosefs_metalogger' in group_names and moosefs_pro"
 
 # Install MooseFS chunkserver
 - name: Install MooseFS chunkserver
   apt:
-    name: moosefs-chunkserver
+    name:
+      - moosefs-chunkserver
+      - moosefs-cli
     state: present
   when: "'moosefs_chunkserver' in group_names and not moosefs_pro"
 
 - name: Install MooseFS chunkserver (PRO)
   apt:
-    name: moosefs-pro-chunkserver
+    name:
+      - moosefs-pro-chunkserver
+      - moosefs-pro-cli
     state: present
   when: "'moosefs_chunkserver' in group_names and moosefs_pro"
 
 # Install MooseFS client
 - name: Install MooseFS client
   apt:
-    name: moosefs-client
+    name:
+      - moosefs-client
+      - moosefs-cli
     state: present
   when: "'moosefs_client' in group_names and not moosefs_pro"
 
 - name: Install MooseFS client (PRO)
   apt:
-    name: moosefs-pro-client
+    name:
+      - moosefs-pro-client
+      - moosefs-pro-cli
     state: present
   when: "'moosefs_client' in group_names and moosefs_pro"

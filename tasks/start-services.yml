@@ -7,7 +7,14 @@
     name: moosefs-master
     state: started
     enabled: true
-  when: "'moosefs_master' in group_names"
+  when: "'moosefs_master' in group_names and not moosefs_pro"
+
+- name: Start and enable MooseFS master (PRO)
+  service:
+    name: moosefs-pro-master
+    state: started
+    enabled: true
+  when: "'moosefs_master' in group_names and moosefs_pro"
 
 # Start and enable MooseFS cgiserv
 - name: Start and enable MooseFS cgiserv
@@ -15,7 +22,14 @@
     name: moosefs-cgiserv
     state: started
     enabled: true
-  when: "'moosefs_master' in group_names"
+  when: "'moosefs_master' in group_names and not moosefs_pro"
+
+- name: Start and enable MooseFS cgiserv (PRO)
+  service:
+    name: moosefs-pro-cgiserv
+    state: started
+    enabled: true
+  when: "'moosefs_master' in group_names and moosefs_pro"
 
 # Start and enable MooseFS metalogger
 - name: Start and enable MooseFS metalogger
@@ -23,7 +37,14 @@
     name: moosefs-metalogger
     state: started
     enabled: true
-  when: "'moosefs_metalogger' in group_names"
+  when: "'moosefs_metalogger' in group_names and not moosefs_pro"
+
+- name: Start and enable MooseFS metalogger (PRO)
+  service:
+    name: moosefs-pro-metalogger
+    state: started
+    enabled: true
+  when: "'moosefs_metalogger' in group_names and moosefs_pro"
 
 # Start and enable MooseFS chunkserver
 - name: Start and enable MooseFS chunkserver
@@ -31,4 +52,11 @@
     name: moosefs-chunkserver
     state: started
     enabled: true
-  when: "'moosefs_chunkserver' in group_names"
+  when: "'moosefs_chunkserver' in group_names and not moosefs_pro"
+
+- name: Start and enable MooseFS chunkserver (PRO)
+  service:
+    name: moosefs-pro-chunkserver
+    state: started
+    enabled: true
+  when: "'moosefs_chunkserver' in group_names and moosefs_pro"

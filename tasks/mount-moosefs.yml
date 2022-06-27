@@ -9,17 +9,21 @@
     owner: root
     group: root
     mode: 0755
+  when: "'moosefs_client' in group_names"
 
 - name: Create an entry in /etc/fstab
   lineinfile:
     path: "/etc/fstab"
     line: "mfsmount {{ moosefs_mount_path }} fuse defaults,mfsdelayedinit,nofail 0 0"
     state: present
+  when: "'moosefs_client' in group_names"
 
 - name: Mount MooseFS
   command:
     cmd: mfsmount
-  when: ansible_mounts | selectattr('mount', 'equalto', moosefs_mount_path) | list | length == 0
+  when: 
+    - ansible_mounts | selectattr('mount', 'equalto', moosefs_mount_path) | list | length == 0
+    - "'moosefs_client' in group_names"
 
 - name: Check if MooseFS is working
   file:
@@ -28,3 +32,4 @@
     owner: root
     group: root
     mode: 0755
+  when: "'moosefs_client' in group_names"

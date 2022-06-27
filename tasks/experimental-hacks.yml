@@ -1,0 +1,11 @@
+---
+# tasks file for ansible-role-moosefs
+# Experimental hacks.
+# These are not necessarily recommended for production.
+
+- name: Modify MooseFS CGI to point at our master host
+  ansible.builtin.lineinfile:
+    path: /usr/share/mfscgi/mfs.cgi
+    search_string: "			masterhost = 'mfsmaster'"
+    line: "			masterhost = '{{ moosefs_master_host }}'"
+  when: "'moosefs_master' in group_names"

@@ -1,6 +1,4 @@
 ---
-# tasks file for ansible-role-moosefs
-
 # Add apt key
 - name: Install MooseFS apt key
   apt_key:
@@ -18,26 +16,33 @@
       - moosefs-master
       - moosefs-cgi
       - moosefs-cgiserv
+      - moosefs-cli
     state: present
   when: "'moosefs_master' in group_names"
 
 # Install MooseFS metalogger
 - name: Install MooseFS metalogger
   apt:
-    name: moosefs-metalogger
+    name:
+      - moosefs-metalogger
+      - moosefs-cli
     state: present
   when: "'moosefs_metalogger' in group_names"
 
 # Install MooseFS chunkserver
 - name: Install MooseFS chunkserver
   apt:
-    name: moosefs-chunkserver
+    name:
+      - moosefs-chunkserver
+      - moosefs-cli
     state: present
   when: "'moosefs_chunkserver' in group_names"
 
 # Install MooseFS client
 - name: Install MooseFS client
   apt:
-    name: moosefs-client
+    name:
+      - moosefs-client
+      - moosefs-cli
     state: present
   when: "'moosefs_client' in group_names"

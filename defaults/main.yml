@@ -10,22 +10,21 @@ moosefs_pro: false
 
 # Enable experimental dual installation method (MooseFS PRO and CE)
 # This is NOT officially supported, use with caution!
+# (UNIMPLEMENTED)
 moosefs_pro_dual_install: false
 
-# Installation method to use. Currently only building from source is available.
-# In the future, package-based installation will also be available.
-# This role will pick the best default option suitable for your OS and hardware automatically.
-# But you can also override which method to use - per host if you want!
-# If you set this to something other than build (like package) for a host, you can use existing
-# Moose machines using package-based installation and otherwise get all the full benefits.
-# BETA.
-moosefs_install_method: build
+# Enable experimental hacks:
+# * Automatic CGI redirection to master host
+moosefs_experimental_hacks: true
+
+# Installation method to use.
+moosefs_install_method: source
 
 # Special settings for building from source
 # After building MooseFS, automatically install it without intervention.
 moosefs_build_autoinstall: true
 
-# Default mount path for mounting MooseFS on clients. Easy to override but a good default.
+# Default mount path for mounting MooseFS on clients.
 moosefs_mount_path: /mnt/mfs
 
 # Extra custom options for the master service
@@ -39,5 +38,3 @@ moosefs_client_custom_options:
 
 # Whether to automatically mount MooseFS on clients
 moosefs_automount: true
-
-# TODO - custom topology, custom exports

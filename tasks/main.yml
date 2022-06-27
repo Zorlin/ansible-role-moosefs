@@ -3,15 +3,15 @@
 # main tasks file, which performs pretty much everything needed for installation and configuration of MooseFS
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
-  
+
 ### Install MooseFS ###
 # Install MooseFS from official packages
 - include_tasks: install-official.yml
   when: moosefs_install_method == "official"
 
-# Build and install MooseFS from source for hosts using build method (current default)
+# Build and install MooseFS from source for hosts using source method (current default)
 - include_tasks: install-source.yml
-  when: moosefs_install_method == "build" and not moosefs_pro
+  when: moosefs_install_method == "source" and not moosefs_pro
 
 # Install MooseFS from distro packages
 - include_tasks: install-from-package.yml
@@ -19,7 +19,6 @@
 
 ### Check installation ###
 # Check if MooseFS is now installed
-# TODO - consider making this a loop
 
 - name: Check if MooseFS is installed (master)
   stat: path=/usr/sbin/mfsmaster
@@ -29,6 +28,9 @@
 - name: MooseFS install check - store the result
   set_fact:
     moosefs_installed: true
+  when:
+    - moosefs_install_check.stat.exists | default('false') | bool
+    - "'moosefs_master' in group_names"
 
 - name: Check if MooseFS is installed (cgiserv)
   stat: path=/usr/sbin/mfscgiserv
@@ -37,6 +39,9 @@
 - name: MooseFS install check - store the result
   set_fact:
     moosefs_installed: true
+  when:
+    - moosefs_install_check.stat.exists | default('false') | bool
+    -  "'moosefs_master' in group_names"
 
 - name: Check if MooseFS is installed (metalogger)
   stat: path=/usr/sbin/mfsmetalogger
@@ -45,6 +50,9 @@
 - name: MooseFS install check - store the result
   set_fact:
     moosefs_installed: true
+  when:
+    - moosefs_install_check.stat.exists | default('false') | bool
+    - "'moosefs_metalogger' in group_names"
 
 - name: Check if MooseFS is installed (chunkserver)
   stat: path=/usr/sbin/mfschunkserver
@@ -53,6 +61,9 @@
 - name: MooseFS install check - store the result
   set_fact:
     moosefs_installed: true
+  when:
+    - moosefs_install_check.stat.exists | default('false') | bool
+    - "'moosefs_chunkserver' in group_names"
 
 - name: Check if MooseFS is installed (client)
   stat: path=/usr/bin/mfsmount
@@ -61,26 +72,32 @@
 - name: MooseFS install check - store the result
   set_fact:
     moosefs_installed: true
+  when:
+    - moosefs_install_check.stat.exists | default('false') | bool
+    - "'moosefs_client' in group_names"
 
 ### Post-installation ###
 # Once MooseFS is installed, create configuration files and prepare things
 - include_tasks: setup-bricks.yml
-  when: moosefs_installed
+  when: moosefs_installed | default('false') | bool and not moosefs_upgrade | default('false') | bool
 
 - include_tasks: configure-moosefs.yml
-  when: moosefs_installed
+  when: moosefs_installed | default('false') | bool and not moosefs_upgrade | default('false') | bool
+
+- include_tasks: experimental-hacks.yml
+  when: moosefs_installed | default('false') | bool and moosefs_experimental_hacks
 
 # If needed, initialize the cluster
 - include_tasks: check-empty-metadata.yml
-  when: moosefs_installed and "'moosefs_master' in group_names"
+  when: moosefs_installed | default('false') | bool and "'moosefs_master' in group_names"
 
 # Now that MooseFS is configured, start and enable services
 - include_tasks: start-services.yml
-  when: moosefs_configured
+  when: moosefs_configured | default('false') | bool and not moosefs_upgrade | default('false') | bool
 
 # Automount MooseFS if automount is enabled
 - include_tasks: mount-moosefs.yml
-  when: moosefs_automount and "'moosefs_client' in group_names"
+  when: moosefs_automount | default('false') | bool and not moosefs_upgrade | default('false') | bool
 
 # Print success message
 - name: Print success message
