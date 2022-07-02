@@ -1,5 +1,10 @@
 ---
 # Add apt key
+- name: Install prerequisites
+  package:
+    name: gnupg2
+    state: present
+
 - name: Install MooseFS apt key
   apt_key:
     url: https://ppa.moosefs.com/moosefs.key

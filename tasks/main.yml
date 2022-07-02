@@ -88,8 +88,8 @@
   when: moosefs_installed | default('false') | bool and moosefs_experimental_hacks
 
 # If needed, initialize the cluster
-- include_tasks: check-empty-metadata.yml
-  when: moosefs_installed | default('false') | bool and "'moosefs_master' in group_names"
+#- include_tasks: check-empty-metadata.yml
+#  when: moosefs_installed | default('false') | bool and "'moosefs_master' in group_names"
 
 # Now that MooseFS is configured, start and enable services
 - include_tasks: start-services.yml
