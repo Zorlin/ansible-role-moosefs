@@ -40,6 +40,7 @@
     owner: root
     group: root
     mode: 0644
+  when: moosefs_pro
 
 - name: Install MooseFS master and CGI (PRO)
   apt:
