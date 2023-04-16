@@ -45,12 +45,12 @@
 
 - name: Install MooseFS licence (PRO)
   copy:
-    src: 'mfslicence.bin'
+    content: '{{ moosefs_pro_licence | b64decode }}'
     dest: /etc/mfs/mfslicence.bin
     owner: root
     group: root
     mode: 0644
-  when: moosefs_pro
+  when: "'moosefs_master' in group_names and moosefs_pro"
 
 # Install MooseFS metalogger
 - name: Install MooseFS metalogger

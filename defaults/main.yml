@@ -33,3 +33,7 @@ moosefs_client_custom_options:
 
 # Whether to automatically mount MooseFS on clients
 moosefs_automount: true
+
+# MooseFS chunkserver extra configuration:
+moosefs_chunkserver_extra_config: |
+  # No options defined by default. Edit moosefs_chunkserver_extra_config to add your own.

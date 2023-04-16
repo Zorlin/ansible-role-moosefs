@@ -2,8 +2,12 @@
 # Configuration template for the MooseFS exports.
 # All of the default MooseFS exports are used if not defined here, so this will be nearly empty in most cases.
 
+{% if moosefs_exports is defined %}
+{{ moosefs_exports }}
+{% else %}
 # Allow everything but "meta".
 *			/	rw,alldirs,admin,maproot=0:0
 
 # Allow "meta".
 *			.	rw
+{% endif %}

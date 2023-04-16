@@ -81,8 +81,10 @@
 
 ### Post-installation ###
 # Once MooseFS is installed, create configuration files and prepare things
-- include_tasks: setup-bricks.yml
-  when: moosefs_installed | default('false') | bool and not moosefs_upgrade | default('false') | bool
+
+# Disabled for now
+# - include_tasks: setup-bricks.yml
+#   when: moosefs_installed | default('false') | bool and not moosefs_upgrade | default('false') | bool
 
 - include_tasks: configure-moosefs.yml
   when: (moosefs_installed | default('false') | bool) and (not moosefs_upgrade | default('false') | bool)

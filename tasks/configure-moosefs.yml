@@ -31,6 +31,7 @@
     group: root
     mode: '0644'
   when: "'moosefs_master' in group_names"
+  no_log: true
 
 - name: Configure the main metalogger configuration
   template:
@@ -52,8 +53,8 @@
 
 - name: Build a list of bricks
   find:
-    paths: /mnt/
-    patterns: "mfsbrick.*,mfsbrickpro.*"
+    paths: /mnt/bricks
+    patterns: "*"
     file_type: directory
   register: brick_list
 
