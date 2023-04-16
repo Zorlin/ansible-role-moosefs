@@ -25,9 +25,6 @@ moosefs_mount_path: /mnt/mfs
 # Extra custom options for the master service
 moosefs_master_custom_options:
 
-# Extra custom options for the chunkserver service
-moosefs_chunkserver_custom_options:
-
 # Extra custom options for the clients
 moosefs_client_custom_options:
 
