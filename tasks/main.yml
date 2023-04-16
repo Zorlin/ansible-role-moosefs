@@ -35,6 +35,7 @@
 - name: Check if MooseFS is installed (cgiserv)
   stat: path=/usr/sbin/mfscgiserv
   register: moosefs_install_check
+  when: "'moosefs_master' in group_names"
 
 - name: MooseFS install check - store the result
   set_fact:
@@ -46,6 +47,7 @@
 - name: Check if MooseFS is installed (metalogger)
   stat: path=/usr/sbin/mfsmetalogger
   register: moosefs_install_check
+  when: "'moosefs_metalogger' in group_names"
 
 - name: MooseFS install check - store the result
   set_fact:
@@ -57,6 +59,7 @@
 - name: Check if MooseFS is installed (chunkserver)
   stat: path=/usr/sbin/mfschunkserver
   register: moosefs_install_check
+  when: "'moosefs_chunkserver' in group_names"
 
 - name: MooseFS install check - store the result
   set_fact:
