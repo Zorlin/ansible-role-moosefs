@@ -8,17 +8,12 @@ moosefs_master_host: mfsmaster
 # Enable MooseFS PRO (will not work without a licence)
 moosefs_pro: false
 
-# Enable experimental dual installation method (MooseFS PRO and CE)
-# This is NOT officially supported, use with caution!
-# (UNIMPLEMENTED)
-moosefs_pro_dual_install: false
-
 # Enable experimental hacks:
 # * Automatic CGI redirection to master host
 moosefs_experimental_hacks: true
 
 # Installation method to use.
-moosefs_install_method: source
+moosefs_install_method: package
 
 # Special settings for building from source
 # After building MooseFS, automatically install it without intervention.
