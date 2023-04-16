@@ -4,32 +4,35 @@
 
 - name: Create our mountpoint
   file:
-    path: "{{ moosefs_mount_path }}"
+    path: "{{ item.path }}"
     state: directory
     owner: root
     group: root
     mode: 0755
-  when: "'moosefs_client' in group_names"
+  loop: "{{ moosefs_mount }}"
 
 - name: Create an entry in /etc/fstab
   lineinfile:
     path: "/etc/fstab"
-    line: "mfsmount {{ moosefs_mount_path }} fuse defaults,mfsdelayedinit,nofail 0 0"
+    line: "mfsmount {{ item.path }} fuse mfssubfolder={{ item.mfssubfolder }},{{ item.options }},mfspassword={{ item.mfspassword }} 0 0"
     state: present
-  when: "'moosefs_client' in group_names"
+  loop: "{{ moosefs_mount }}"
+  no_log: true
 
-- name: Mount MooseFS
-  command:
-    cmd: mfsmount
-  when: 
-    - ansible_mounts | selectattr('mount', 'equalto', moosefs_mount_path) | list | length == 0
-    - "'moosefs_client' in group_names"
+# Automatically mount MooseFS
 
-- name: Check if MooseFS is working
-  file:
-    path: "{{ moosefs_mount_path }}/.moosefs-ansible-test"
-    state: touch
-    owner: root
-    group: root
-    mode: 0755
-  when: "'moosefs_client' in group_names"
+# Only works for default system mount anyways
+# - name: Mount MooseFS
+#   command:
+#     cmd: mfsmount
+#   when: 
+#     - ansible_mounts | selectattr('mount', 'equalto', moosefs_mount_path) | list | length == 0
+
+# Disabled for now, we'll find a cleaner way to do it later.
+# - name: Check if MooseFS is working
+#   file:
+#     path: "{{ moosefs_mount_path }}/.moosefs-ansible-test"
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 0755

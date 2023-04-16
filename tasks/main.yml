@@ -89,8 +89,9 @@
 - include_tasks: configure-moosefs.yml
   when: (moosefs_installed | default('false') | bool) and (not moosefs_upgrade | default('false') | bool)
 
-- include_tasks: experimental-hacks.yml
-  when: moosefs_installed | default('false') | bool and moosefs_experimental_hacks
+# Disabled for now
+# - include_tasks: experimental-hacks.yml
+#   when: moosefs_installed | default('false') | bool and moosefs_experimental_hacks
 
 # If needed, initialize the cluster
 #- include_tasks: check-empty-metadata.yml
@@ -98,11 +99,14 @@
 
 # Now that MooseFS is configured, start and enable services
 - include_tasks: start-services.yml
-  when: moosefs_configured | default('false') | bool and not moosefs_upgrade | default('false') | bool
+  when: (moosefs_configured | default('false') | bool) and (not moosefs_upgrade | default('false') | bool)
 
 # Automount MooseFS if automount is enabled
 - include_tasks: mount-moosefs.yml
-  when: moosefs_automount | default('false') | bool and not moosefs_upgrade | default('false') | bool
+  when: 
+    - (moosefs_automount | default('false') | bool)
+    - not (moosefs_upgrade | default('false') | bool)
+    - "'moosefs_client' in group_names"
 
 # Print success message
 - name: Print success message

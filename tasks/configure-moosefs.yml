@@ -13,6 +13,7 @@
     group: root
     mode: '0644'
   when: "'moosefs_master' in group_names"
+  notify: reload mfsmaster
 
 - name: Configure the main topology configuration
   template:
@@ -22,6 +23,7 @@
     group: root
     mode: '0644'
   when: "'moosefs_master' in group_names"
+  notify: reload mfsmaster
 
 - name: Configure the main exports
   template:
@@ -32,6 +34,7 @@
     mode: '0644'
   when: "'moosefs_master' in group_names"
   no_log: true
+  notify: reload mfsmaster
 
 - name: Configure the main metalogger configuration
   template:
@@ -50,6 +53,7 @@
     group: root
     mode: '0644'
   when: "'moosefs_chunkserver' in group_names"
+  notify: reload mfschunkserver
 
 - name: Build a list of bricks
   find:
