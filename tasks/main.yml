@@ -85,7 +85,7 @@
   when: moosefs_installed | default('false') | bool and not moosefs_upgrade | default('false') | bool
 
 - include_tasks: configure-moosefs.yml
-  when: moosefs_installed | default('false') | bool and not moosefs_upgrade | default('false') | bool
+  when: (moosefs_installed | default('false') | bool) and (not moosefs_upgrade | default('false') | bool)
 
 - include_tasks: experimental-hacks.yml
   when: moosefs_installed | default('false') | bool and moosefs_experimental_hacks

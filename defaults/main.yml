@@ -13,7 +13,7 @@ moosefs_pro: false
 moosefs_experimental_hacks: true
 
 # Installation method to use.
-moosefs_install_method: package
+moosefs_install_method: official
 
 # Special settings for building from source
 # After building MooseFS, automatically install it without intervention.
