@@ -10,6 +10,7 @@
     group: root
     mode: 0755
   loop: "{{ moosefs_mount }}"
+  no_log: true
 
 - name: Create an entry in /etc/fstab
   lineinfile:
