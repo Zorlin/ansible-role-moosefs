@@ -60,6 +60,7 @@
     paths: /mnt/bricks
     patterns: "*"
     file_type: directory
+  when: "'moosefs_chunkserver' in group_names"
   register: brick_list
 
 - name: Configure the chunkserver brick list

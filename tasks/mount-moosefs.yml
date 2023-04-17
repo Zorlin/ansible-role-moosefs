@@ -21,6 +21,16 @@
 
 # Automatically mount MooseFS
 
+- name: Check that each MooseFS mountpoint is mounted
+  mount:
+    name: "{{ item.path }}"
+    src: "mfsmount"
+    fstype: fuse
+    opts: "mfssubfolder={{ item.mfssubfolder }},{{ item.options }},mfspassword={{ item.mfspassword }}"
+    state: mounted
+  loop: "{{ moosefs_mount }}"
+  no_log: true
+
 # Only works for default system mount anyways
 # - name: Mount MooseFS
 #   command:

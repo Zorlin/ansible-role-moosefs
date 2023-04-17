@@ -7,6 +7,7 @@
     paths: /mnt/
     patterns: "mfsbrick.*,mfsbrickpro.*"
     file_type: directory
+  when: "'moosefs_chunkserver' in group_names"
   register: brick_list
 
 - name: Ensure each brick folder exists and is owned correctly
