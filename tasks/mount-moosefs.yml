@@ -9,6 +9,7 @@
     owner: root
     group: root
     mode: 0755
+    recurse: false
   loop: "{{ moosefs_mount }}"
   no_log: true
 
